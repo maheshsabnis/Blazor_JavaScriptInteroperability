@@ -1,0 +1,43 @@
+﻿@page "/calljsusingclass"
+@using Blazor_JavaScriptInteroperability.Services
+@inject IJSRuntime jsInterop
+<h3>Calling JS in C# using C# Class</h3>
+
+<table class="table table-bordered table-striped">
+	<tr>
+		<td>
+			<input type="button" value="Print" class="btn btn-warning"
+				   @onclick="obj.Print" />
+		</td>
+		<td>
+			<input type="button" value="Add" class="btn btn-dark"
+				   @onclick="obj.Add" />
+		</td>
+		<td>
+			<input type="button" value="Get Data" class="btn btn-dark"
+				   @onclick="obj.GetData" />
+		</td>
+	</tr>
+</table>
+<hr />
+<div>
+	<strong>
+		The Result is @obj.res
+	</strong>
+</div>
+<hr />
+<div>
+	<strong>
+		Data Received from the service: ><br /> @obj.data
+	</strong>
+</div>
+
+@code {
+	private CallJavaScript obj;
+
+	protected override void OnInitialized()
+	{
+		obj = new CallJavaScript(jsInterop);
+		base.OnInitialized();
+	}
+}

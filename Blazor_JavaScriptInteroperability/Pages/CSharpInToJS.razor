@@ -1,0 +1,61 @@
+﻿@page "/callcsintojs"
+
+<h3>Call CSharp inro JavaScript</h3>
+
+<input type="button" value="Click Me"
+	   onclick="accessCSharpFunction.display()" />
+<br />
+<input type="button" value="Click Me with differnt name"
+	   onclick="accessCSharpFunction.printMessage()" />
+<br />
+<input type="button" value="Click Me for method with parameters"
+	   onclick="accessCSharpFunction.addValues()" />
+
+<br />
+<input type="button" value="Get Product Information"
+	   onclick="accessCSharpFunction.getData()" />
+
+
+@code {
+	[JSInvokable]
+	public static Task Dipslay()
+	{
+		return Task.FromResult<string>("Hi! I C# Method");
+	}
+
+
+	[JSInvokable("showMessage")]
+	public static Task DipslayWithDifferentName()
+	{
+		return Task.FromResult<string>("Hi! I C# Method called using different method name");
+	}
+
+	[JSInvokable("add")]
+	public static Task Sum(int x, int y)
+	{
+		return Task.FromResult<int>(x + y);
+	}
+
+	[JSInvokable("getProducts")]
+	public async static Task<Product[]> getData()
+	{
+		HttpClient client = new HttpClient();
+
+		var response = await client.GetFromJsonAsync<Product[]>("https://apiapptrainingnewapp.azurewebsites.net/api/Products");
+		return response;
+	}
+
+
+
+	public class Product
+	{
+		public int ProductRowId { get; set; }
+		public string ProductId { get; set; }
+		public string ProductName { get; set; }
+		public string CategoryName { get; set; }
+		public string Manufacturer { get; set; }
+		public string Description { get; set; }
+		public int BasePrice { get; set; }
+	}
+
+}
